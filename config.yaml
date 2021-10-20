@@ -1,6 +1,6 @@
-baseURL: http://example.org/
+baseURL: https://leonard-schmitz-website.netlify.app/
 languageCode: en-us
-title: Portfolio Website
+title: Leonard's Website
 theme: forty
 googleAnalytics: ''
 disqusShortname: ''
@@ -8,24 +8,23 @@ params:
   banner:
     buttonText: Get Started
     subtitle: |-
-      A RESPONSIVE SITE TEMPLATE DESIGNED BY HTML5 UP
-      AND RELEASED UNDER THE CREATIVE COMMONS.
-    title: Hi, my name is Forty
-  blog: {}
+      This website has been created as part of my coding assignemnt for my master in financial analysis. Feel free to browse the different tiles and I hope you enjoy the content.
+    title: HI, I'M LEONARD SCHMITZ WELCOME TO MY WEBSITE
+    blog: {}
   contact:
-    address:
-      - city: London, NW1 4SA
+    address:  
+      - city: London NW1 4SA
         country: United Kingdom
-        street: Regents Park
-        title: Home Adress
+        street: London Business School, Regent's Park
+        title: Address
     buttonClear: Clear
     buttonSend: Send message
     email:
-      - email: leonard.schmitz1@gmail.com
+      - email: lschmitz.mfa2022@london.edu
         title: Email
     enable: yes
     phone:
-      - phone: (+49) 151-059073915 x1234
+      - phone: (+49) 15159073915 
         title: Phone
   custom_css: []
   custom_js: []
@@ -35,28 +34,28 @@ params:
     text: Please visit [this page](/)
   favicon: favicon.ico
   footer:
-    copyright: Company Name
+    # copyright: Company Name
     enable: yes
-    quicklinks:
-      - alt: HTML5 UP
-        text: 'Design: '
-        url: https://www.html5up.net
+    #quicklinks:
+      #  text: 'Design: '
+     # - alt: HTML5 UP
+       # url: https://www.html5up.net
     social:
-      - icon: fa-twitter
-        label: Twitter
-        url: https://www.twitter.com
+      #- icon: fa-twitter
+       # label: Twitter
+        #url: https://www.twitter.com/samnanda1
       - icon: fa-facebook
         label: Facebook
-        url: https://www.facebook.com
+        url: https://www.facebook.com/leonard.schmitz.9/
       - icon: fa-instagram
         label: Instagram
-        url: https://www.instagram.com
+        url: https://www.instagram.com/leonard_schmitz
       - icon: fa-github
         label: GitHub
-        url: https://www.github.com
+        url: https://www.github.com/leonardschmitz98
       - icon: fa-linkedin
         label: LinkedIn
-        url: https://www.linkedin.com
+        url: https://www.linkedin.com/in/leonard-schmitz-51266a13b/
   image: ''
   name: Your name
   navigation:
@@ -69,50 +68,51 @@ params:
     links:
       - name: Home
         url: '#'
-      - name: Blogs
-        url: blogs
-      - name: Generic Blog
-        url: blogs/ipsum
-      - name: Elements
-        url: elements.html
+     # - name: Blogs
+      #  url: blogs
+      #- name: Generic Blog
+        #url: blogs/ipsum
+      #- name: Elements
+       # url: elements.html
     menu: Menu
-    subtitle: By HTML5 Up
-    title: Forty
+   # subtitle: By HTML5 Up
+   # title: Forty
   tiles:
     enable: yes
     showcase:
-      - image: pic01.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Aliquam
-        url: blogs/aliquam
-      - image: pic02.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Tempus
-        url: blogs/tempus
-      - image: pic03.jpg
-        subtitle: Lorem Etiam Nullam
-        title: Magna
+      - image: projects/me
+        #subtitle: Charity Mission
+        title: About Me
+        url: blogs/ipsum
+      - image: projects/LBS
+       # subtitle: Ipsum Dolor Sit Amet
+        title: Education
         url: blogs/magna
-      - image: pic04.jpg
-        subtitle: Nisl Sed Aliquam
-        title: Ipsum
-        url: blogs/ipsum
-      - image: pic05.jpg
-        subtitle: Ipsum Dolor Sit Amet
-        title: Consequat
-        url: blogs/ipsum
-      - image: pic06.jpg
-        subtitle: Feugiat Amet Tempus
-        title: Etiam
-        url: blogs/ipsum
-  two:
-    buttonText: Get Started
-    enable: yes
-    subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
-      \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
-      condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
-      pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
-      Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
-      amet pharetra et feugiat tempus."
-    title: Massa libero
-    url: blogs
+      - image: projects/cv
+       # subtitle: Feugiat Amet Tempus
+        title: Internships
+        url: blogs/tempus
+      - image: projects/coding
+       # subtitle: Feugiat Amet Tempus
+        title: Coding Project
+        url: blogs/aliquam
+      - image: projects/USA
+       # subtitle: Lorem Etiam Nullam
+        title: Exchange Semesters
+        url: blogs/exchange
+      - image: projects/
+       # subtitle: Nisl Sed Aliquam
+        title: Sport
+        url: blogs/sport
+      
+ # two:
+  #  buttonText: Get Started
+   # enable: yes
+    #subtitle: "Nullam et orci eu lorem consequat tincidunt vivamus et sagittis libero.
+    #  \n    Mauris aliquet magna magna sed nunc rhoncus pharetra. \n    Pellentesque
+     # condimentum sem. In efficitur ligula tate urna. Maecenas laoreet massa vel lacinia
+      #pellentesque lorem ipsum dolor. \n    Nullam et orci eu lorem consequat tincidunt.
+  #    Vivamus et sagittis libero.\n    Mauris aliquet magna magna sed nunc rhoncus
+   #   amet pharetra et feugiat tempus."
+    #title: Massa libero
+    #url: blogs
