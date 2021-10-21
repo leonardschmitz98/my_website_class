@@ -8,8 +8,225 @@ description: Nullam et orci eu lorem consequat tincidunt vivamus et sagittis mag
   sed magna lacinia magna pellentesque lorem ipsum dolor. Nullam et orci eu lorem
   consequat tincidunt. Vivamus et sagittis tempus.
 draft: false
-image: pic08.jpg
+image: climate.jpg
 keywords: ""
-slug: tempus
-title: Tempus
+slug: coding
+title: Using Data to investigate Climate Change
 ---
+
+```{r, setup, include=FALSE}
+knitr::opts_chunk$set(
+  message = FALSE, 
+  warning = FALSE, 
+  tidy=FALSE,     # display code as typed
+  size="small")   # slightly smaller font for code
+options(digits = 3)
+
+# default figure size
+knitr::opts_chunk$set(
+  fig.width=6.75, 
+  fig.height=6.75,
+  fig.align = "center"
+)
+```
+
+
+```{r load-libraries, include=FALSE}
+library(tidyverse)  # Load ggplot2, dplyr, and all the other tidyverse packages
+library(mosaic)
+library(ggthemes)
+library(lubridate)
+library(here)
+library(skimr)
+library(janitor)
+library(httr)
+library(readxl)
+library(vroom)
+library(infer)
+library(grid)
+library(ggpubr)
+library(rvest)
+library(ggtext)
+```
+
+
+#Below one can see how data can be used in an engaging and useful way to investigate weather phenomenons and climate change. It clearly shows that weather anomalies are becoming more frequent in the past 50 years. It is likely that man made climate change is a key reason behind this development. 
+
+
+Use data to study climate change between 1951-1980
+
+```{r weather_data, cache=TRUE}
+
+# Load data of weather data of each country
+weather <- 
+  read_csv("https://data.giss.nasa.gov/gistemp/tabledata_v4/NH.Ts+dSST.csv", 
+           skip = 1, # The real data table only starts in Row 2, so we need to skip one row. 
+           na = "***") # `na = "***"` option informs R how missing observations in the spreadsheet are coded
+```
+
+```{r tidyweather}
+
+# Convert the data frame from wide to 'long' format
+tidyweather <- weather %>% 
+  select("Year","Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec") %>% #Select the year and the twelve month variables from weather dataset
+  pivot_longer(cols = c("Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"), 
+               names_to = "month",
+               values_to = "delta")  #name the variable and the temperature deviation values
+```
+
+## Plotting Information
+
+```{r scatter_plot}
+
+# Create variable `date` in order to ensure that the `delta` values are plot chronologically
+tidyweather <- tidyweather %>%
+  mutate(date = ymd(paste(as.character(Year), month, "1")), 
+         month = month(date),
+         year = year(date))
+
+# Create a time-series scatter plot of the climate change
+ggplot(tidyweather, aes(x = date, y = delta))+
+  geom_point()+
+  geom_smooth(color="red") + #add a red trendline
+  theme_bw() + #theme
+  labs (
+    title = "Weather Anomalies"
+  )  #create title and axis labels for the graph
+
+```
+
+```{r facet_wrap}
+
+# Create the labeller for each month to be shown in the following plots
+month_name <- list(
+  "1" = "Jan",
+  "2" = "Feb",
+  "3" = "Mar",
+  "4" = "Apr",
+  "5" = "May",
+  "6" = "Jun",
+  "7" = "Jul",
+  "8" = "Aug",
+  "9" = "Sep",
+  "10" = "Oct",
+  "11" = "Nov",
+  "12" = "Dec"
+)
+month_labeller <- function(variable,value){
+  return(month_name[value])
+}
+
+# Produce separate scatter plots for each month in terms of the climate change
+ggplot(tidyweather, aes(x = date, y = delta))+ 
+  geom_point() + 
+  geom_smooth(color="red") + #add red trendlines
+  facet_wrap(~ month, ncol = 4, nrow = 3, labeller = month_labeller) + #facet by month and label each plot with the abbreviated month name
+  theme_bw() + #theme
+  labs (
+    title = "Weather Anomalies",
+    x = "Year",
+    y = "Temperature Deviation"
+  ) #create title and axis labels for the graph
+NULL
+
+```
+
+```{r intervals}
+
+# Create variable "interval" as decades
+comparison <- tidyweather %>% 
+  filter(Year>= 1881) %>%     #remove years prior to 1881
+  #create new variable 'interval', and assign values based on criteria below:
+  mutate(interval = case_when(
+    Year %in% c(1881:1920) ~ "1881-1920",
+    Year %in% c(1921:1950) ~ "1921-1950",
+    Year %in% c(1951:1980) ~ "1951-1980",
+    Year %in% c(1981:2010) ~ "1981-2010",
+    TRUE ~ "2011-present"
+  ))
+
+```
+
+```{r density_plot}
+
+# Create density plot of climate change over decades
+ggplot(comparison, aes(x=delta, fill=interval))+
+  geom_density(alpha=0.2) +   #density plot with transparency set to 20%
+  theme_bw() +                #theme
+  labs (
+    title = "Density Plot for Monthly Temperature Anomalies",
+    y     = "Density"         #changing y-axis label to sentence case
+  )
+
+```
+
+```{r averaging}
+
+# Creating yearly averages
+average_annual_anomaly <- tidyweather %>% 
+  group_by(Year) %>%   #grouping data by Year
+  
+  # creating summaries for mean delta 
+  # use `na.rm=TRUE` to eliminate NA (not available) values 
+  summarise(annual_average_delta = mean(delta, na.rm = TRUE))
+
+# Plotting the data:
+ggplot(average_annual_anomaly, aes(x = Year, y = annual_average_delta))+
+  geom_point()+
+  
+  #Fit the best fit line, using LOESS method
+  geom_smooth() +
+  
+  #change to theme_bw() to have white background + black frame around plot
+  theme(
+    panel.background = element_rect(fill = 'white', colour = 'black')
+  ) +
+  labs (
+    title = "Average Yearly Anomaly",
+    y     = "Average Annual Delta"
+  ) 
+NULL
+
+```
+
+## Confidence Interval for `delta`
+
+NASA points out on their website that a one-degree global change is significant because it takes a vast amount of heat to warm all the oceans, atmosphere, and land by that much. In the past, a one- to two-degree drop was all it took to plunge the Earth into the Little Ice Age.
+
+```{r, calculate_CI_using_formula}
+
+# Using a formula to construct a 95% CI for the delta
+formula_ci <- comparison %>% 
+  filter(interval == "2011-present") %>%  # choose the interval 2011-present 
+  filter(!is.na(delta)) %>%  # eliminate NA (not available) values 
+  summarize(mean_delta = mean(delta),
+            sd_delta = sd(delta),
+            count = n(),
+            t_critical = qt(0.95, count-1),
+            se_delta = sd(delta)/sqrt(count),
+            margin_of_error = t_critical * se_delta,
+            delta_low = mean_delta - margin_of_error,
+            delta_high = mean_delta + margin_of_error
+            ) 
+  # calculate summary statistics for temperature deviation (delta) 
+  # calculate mean, SD, count, SE, lower/upper 95% CI
+
+formula_ci #print out formula_CI 
+```
+
+```{r, calculate_CI_using_bootstrap}
+
+# Use the infer package to construct a 95% CI for delta
+bootstrap_ci <- comparison %>% 
+  filter(interval == "2011-present") %>%  # choose the interval 2011-present 
+  specify(response = delta) %>% # Specify the variable of interest
+  generate(reps = 1000, type = "bootstrap") %>% # Generate a bunch of bootstrap samples
+  calculate(stat = "mean") # Find the median of each sample
+
+boot_ci <- bootstrap_ci %>% 
+  get_confidence_interval(level = 0.95, type = "percentile") # Get the lower and upper 95% CI
+
+boot_ci #print out boot_ci_CI
+```
+
+Conclusion: The 95% confidence interval of average annual delta since 2011 is [1.02, 1.1]. Using the formula and using the bootstrap simulation can generate the same result on that

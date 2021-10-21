@@ -80,30 +80,31 @@ params:
   tiles:
     enable: yes
     showcase:
-      - image: projects/me
-        #subtitle: Charity Mission
-        title: About Me
-        url: blogs/ipsum
-      - image: projects/LBS
-       # subtitle: Ipsum Dolor Sit Amet
+      - image: cuba.jpg
+        subtitle: Where I have been
+        title: Travel
+        url: blogs/travel
+      - image: LBS.jpg
+        subtitle: My studies
         title: Education
-        url: blogs/magna
-      - image: projects/cv
-       # subtitle: Feugiat Amet Tempus
-        title: Internships
-        url: blogs/tempus
-      - image: projects/coding
-       # subtitle: Feugiat Amet Tempus
+        url: blogs/xxx
+      - image: coding.jpg
+        subtitle: Climate Change
         title: Coding Project
-        url: blogs/aliquam
-      - image: projects/USA
-       # subtitle: Lorem Etiam Nullam
+        url: blogs/coding
+      - image: fishing.jpg
+        subtitle: What I enjoy in my freetime
+        title: Hobbies
+        url: blogs/hobbies
+      - image: USA.jpg
+        subtitle: My time abroad
         title: Exchange Semesters
         url: blogs/exchange
-      - image: projects/
-       # subtitle: Nisl Sed Aliquam
-        title: Sport
-        url: blogs/sport
+      - image: Internship.jpg
+        subtitle: My professional experience
+        title: Internships
+        url: blogs/tempus
+      
       
  # two:
   #  buttonText: Get Started
